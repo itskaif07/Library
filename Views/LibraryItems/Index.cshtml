@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Library.Models.LibraryItem>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<a asp-action="Create" class="absolute right-10 top-0 hover:text-white hover:bg-blue-600 bg-blue-500 w-[15%] text-center rounded-md  py-3 font-medium">Write Your Own Story here</a>
+
+<h1 class="text-xl font-semibold text-center mt-10">Dive into exciting adventures</h1>
+
+
+<div  id="boxContainer" class="flex flex-wrap justify-evenly mt-16 mb-10 gap-6">
+    @foreach (var item in Model)
+    {
+        <a id="box" asp-action="Details" asp-route-id="@item.Id" class="block hover:text-white w-[30%] border-2 border-gray-600 rounded-lg flex items-center justify-between h-60">
+
+            <div class="w-1/2 h-full">
+                @if (item.BookCoverImage != null)
+                {
+                    <img src="@item.BookCoverImage" alt="Book Cover" class="w-full h-full object-cover">
+                }
+                else
+                {
+                    <img src="~/images/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg" alt="Default cover" class="w-full h-full object-cover">
+                }
+            </div>
+
+            <div class="w-1/2 px-2 space-y-2">
+                <h1 class="text-xl font-medium pl-4">@item.BookTitle</h1>
+                <h3 class="text-md pl-4">@item.AuthorName</h3>
+                <h5 class="text-sm pl-4">@item.Description</h5>
+            </div>
+        </a>
+    }
+</div>
+
+
+
+
+
+@* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+<a >Details</a> |
+<a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
