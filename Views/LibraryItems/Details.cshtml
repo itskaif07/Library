@@ -4,14 +4,27 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>LibraryItem</h4>
-    <hr />
-  
+<a asp-action="Index" class="absolute left-10 -top-6"><img src="~/images/back.png" alt="Back" class="invert grayscale w-16"></a>
+
+
+
+<div class="space-y-10 mt-14">
+
+<h1 class="text-center font-semibold text-2xl">@Model.BookTitle</h1>
+
+<p class="text-lg px-4 text-center leading-normal whitespace-pre-wrap">@Model.BookContent</p>
+
+<h5 class="text-lg font-medium text-center">- @Model.AuthorName</h5>
+
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<a asp-action="Edit" asp-route-id="@Model?.Id" class="absolute right-10 bottom-16 hover:text-white hover:bg-blue-600 bg-blue-500 w-[8%] text-center rounded-md  py-2 font-medium flex items-center justify-center space-x-2 hover:space-x-4 transition-all duration-all ease-out">
+    <h1> Edit</h1>
+    <img class="scale-x-[-1] invert grayscale w-8" src="~/images/back.png">
+</a>
+
+<a asp-action="Delete" asp-route-id="@Model?.Id" class="absolute right-10 bottom-0  hover:text-white hover:bg-red-600 bg-red-500 w-[8%] text-center rounded-md  py-2 font-medium flex items-center justify-center space-x-2 hover:space-x-4 transition-all duration-all ease-out">
+    <h1> Delete</h1>
+    <img class="scale-x-[-1] invert grayscale w-8" src="~/images/back.png">
+</a>
+
