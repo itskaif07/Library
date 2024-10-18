@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Library.Data;
 using Library.Models;
+using Microsoft.Extensions.Hosting;
 
 namespace Library.Controllers
 {
     public class LibraryItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public LibraryItemsController(ApplicationDbContext context)
+        public LibraryItemsController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment;
         }
 
         // GET: LibraryItems
@@ -56,16 +59,16 @@ namespace Library.Controllers
         {
             if (libraryItem.BookCoverFile != null && libraryItem.BookCoverFile.Length > 0)
             {
-                
+
                 var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
 
-                
+
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
                 }
 
-                
+
                 var fileName = Path.GetFileName(libraryItem.BookCoverFile.FileName);
                 var filePath = Path.Combine(folderPath, fileName);
 
@@ -75,7 +78,7 @@ namespace Library.Controllers
                     await libraryItem.BookCoverFile.CopyToAsync(stream);
                 }
 
-                
+
                 libraryItem.BookCoverImage = "/images/" + fileName;
             }
 
@@ -106,12 +109,9 @@ namespace Library.Controllers
             return View(libraryItem);
         }
 
-        // POST: LibraryItems/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BookTitle,BookContent,BookCoverImage, BookCoverFile, AuthorName,Description")] LibraryItem libraryItem)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BookTitle,BookContent,BookCoverFile, BookCoverImage, AuthorName,Description")] LibraryItem libraryItem)
         {
             if (id != libraryItem.Id)
             {
@@ -122,6 +122,20 @@ namespace Library.Controllers
             {
                 try
                 {
+                    // Handle file upload
+                    if (libraryItem.BookCoverFile != null && libraryItem.BookCoverFile.Length > 0)
+                    {
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", libraryItem.BookCoverFile.FileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await libraryItem.BookCoverFile.CopyToAsync(stream);
+                        }
+
+                        // Set the BookCoverImage property to the new file name
+                        libraryItem.BookCoverImage = "/images/" + libraryItem.BookCoverFile.FileName;
+                    }
+
                     _context.Update(libraryItem);
                     await _context.SaveChangesAsync();
                 }
@@ -140,6 +154,9 @@ namespace Library.Controllers
             }
             return View(libraryItem);
         }
+
+
+
 
         // GET: LibraryItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
