@@ -26,19 +26,19 @@
 
         <div class="w-1/2 flex flex-col items-start justify-center space-y-4 outline-none">
 
-            <div class="flex flex-column items-start justify-center space-y-1 w-4/5">
+            <div class="flex flex-col items-start justify-center space-y-1 w-4/5">
                 <label asp-for="BookTitle" class="text-lg text-left">Title</label>
                 <input asp-for="BookTitle" placeholder="Enter Book Name" class=" px-2 py-2 rounded-md w-full text-black">
                 <span asp-validation-for="BookTitle" class="text-red-500"></span>
             </div>
 
-            <div class="flex flex-column items-start justify-center space-y-1 w-4/5">
+            <div class="flex flex-col items-start justify-center space-y-1 w-4/5">
                 <label asp-for="AuthorName" class="text-lg text-left">Author</label>
                 <input asp-for="AuthorName" placeholder="Enter Author Name" class=" px-2 py-2 rounded-md w-full text-black">
                 <span asp-validation-for="AuthorName" class="text-red-500"></span>
             </div>
 
-            <div class="flex flex-column items-start justify-center space-y-1 w-4/5">
+            <div class="flex flex-col items-start justify-center space-y-1 w-4/5">
                 <label asp-for="Description" class="text-lg text-left">Description</label>
                 <textarea asp-for="Description" rows="3" placeholder="Write Something about it" class=" px-2 py-2 rounded-md w-full text-black"></textarea>
                 <span asp-validation-for="Description" class="text-red-500"></span>
