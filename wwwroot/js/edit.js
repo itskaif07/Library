@@ -16,3 +16,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 })
+
+//Remove button
+
+
+function removeImage() {
+
+    // Set the image source to default
+    uploadImage.src = "/images/uploadImage.png";
+
+    // Clear the file input
+    uploadImageButton.value = "";
+
+    // Set the hidden field to null or empty
+    document.querySelector("input[name='BookCoverImage']").value = "";
+}

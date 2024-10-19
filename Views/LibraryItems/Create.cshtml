@@ -7,7 +7,8 @@
 <a asp-action="Index" class="absolute left-10 -top-14"><img src="~/images/back.png" alt="Back" class="invert grayscale w-16"></a>
 
 
-<form asp-action="Create" class="px-6 mt-20 w-full" enctype="multipart/form-data">
+<form asp-action="Create" method="post" class="px-6 mt-20 w-full" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -32,7 +33,7 @@
             </div>
 
             <div class="flex flex-col items-start justify-center space-y-1 w-4/5">
-                <label asp-for="AuthorName" class="text-lg text-left">Author</label>
+                <label asp-for="AuthorName" class="text-lg text-left">Author(s)</label>
                 <input asp-for="AuthorName" placeholder="Enter Author Name" class=" px-2 py-2 rounded-md w-full text-black">
                 <span asp-validation-for="AuthorName" class="text-red-500"></span>
             </div>

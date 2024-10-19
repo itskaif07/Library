@@ -60,6 +60,7 @@ namespace Library.Controllers
         {
             if (libraryItem.BookCoverFile != null && libraryItem.BookCoverFile.Length > 0)
             {
+                
 
                 var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
 
@@ -112,7 +113,7 @@ namespace Library.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BookTitle,BookContent,BookCoverFile, BookCoverImage, AuthorName,Description")] LibraryItem libraryItem)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BookTitle,BookContent,BookCoverFile,BookCoverImage,AuthorName,Description")] LibraryItem libraryItem)
         {
             if (id != libraryItem.Id)
             {
@@ -123,6 +124,8 @@ namespace Library.Controllers
             {
                 try
                 {
+                    LibraryItem existingItem = await _context.libraryItems.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+
                     // Handle file upload
                     if (libraryItem.BookCoverFile != null && libraryItem.BookCoverFile.Length > 0)
                     {
@@ -133,11 +136,20 @@ namespace Library.Controllers
                             await libraryItem.BookCoverFile.CopyToAsync(stream);
                         }
 
-                        // Set the BookCoverImage property to the new file name
                         libraryItem.BookCoverImage = "/images/" + libraryItem.BookCoverFile.FileName;
                     }
+                    else if (string.IsNullOrEmpty(libraryItem.BookCoverImage))
+                    {
+                        // If the image was removed
+                        libraryItem.BookCoverImage = null;
+                    }
+                    else
+                    {
+                        // Preserve existing cover image if no new image is uploaded
+                        libraryItem.BookCoverImage = existingItem.BookCoverImage;
+                    }
 
-                    _context.Update(libraryItem);
+                    _context.Entry(libraryItem).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -151,10 +163,14 @@ namespace Library.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(CreatedBooks));
             }
             return View(libraryItem);
         }
+
+
+
+
 
 
 
@@ -189,7 +205,7 @@ namespace Library.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(CreatedBooks));
         }
 
         [HttpGet]
