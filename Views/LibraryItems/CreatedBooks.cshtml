@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Library.Models.LibraryItem>
+
+@{
+    ViewData["Title"] = "Your Books";
+}
+
+<a asp-action="Index" class="inline-block mt-6 ml-6"><img src="~/images/back.png" alt="Back" class="invert grayscale w-16"></a>
+
+
+<div class="w-full flex items-center justify-center flex-col">
+
+
+    <h1 class="text-xl font-semibold text-center mb-6 px-6">Read Your Stories</h1>
+
+
+    <div id="boxContainer" class="flex flex-wrap justify-evenly  mb-10 gap-6">
+        @foreach (var item in Model)
+        {
+            <a id="box" asp-action="Details" asp-route-id="@item.Id" class="block hover:text-white opacity-90 hover:opacity-100 w-full md:w-[70%] lg:w-[45%] 2xl:w-[30%] border-2 border-gray-600 rounded-lg flex items-center justify-between h-60">
+
+                <div class="w-1/2 h-full">
+                    @if (item.BookCoverImage != null)
+                    {
+                        <img src="@item.BookCoverImage" alt="Book Cover" class="w-full h-full object-cover">
+                    }
+                    else
+                    {
+                        <img src="~/images/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg" alt="Default cover" class="w-full h-full object-cover">
+                    }
+                </div>
+
+                <div class="w-1/2 px-2 space-y-2">
+                    <h1 class="text-xl font-medium pl-4">@item.BookTitle</h1>
+                    <h3 class="text-md pl-4">@item.AuthorName</h3>
+                    <h5 class="text-sm pl-4 max-[400px]:truncate">@item.Description</h5>
+                </div>
+            </a>
+        }
+    </div>
+
+
+</div>
+

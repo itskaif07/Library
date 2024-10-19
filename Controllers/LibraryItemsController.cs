@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Library.Data;
 using Library.Models;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Library.Controllers
 {
@@ -86,7 +87,7 @@ namespace Library.Controllers
             {
                 _context.Add(libraryItem);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(CreatedBooks));
             }
 
             return View(libraryItem);
@@ -189,6 +190,13 @@ namespace Library.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+
+        public async Task<IActionResult> CreatedBooks()
+        {
+            return View(await _context.libraryItems.ToListAsync());
         }
 
         private bool LibraryItemExists(int id)

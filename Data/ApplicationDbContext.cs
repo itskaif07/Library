@@ -8,5 +8,7 @@ namespace Library.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<LibraryItem> libraryItems { get; set; }
+
+        public DbSet<Api> Apis { get; set; }
     }
 }

@@ -1,0 +1,23 @@
+﻿@model Library.Models.Api
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<a asp-controller="LibraryItems" asp-action="Index" class="absolute left-10 -top-6">
+    <img src="~/images/back.png" alt="Back" class="invert grayscale w-16">
+</a>
+
+<div class="space-y-10 mt-14 space-y-8 text-center px-6">
+    <h1 class="text-center font-semibold text-2xl">@Model.VolumeInfo.Title</h1>
+
+    <p class="text-xl px-4 text-center leading-normal whitespace-pre-wrap"> @Html.Raw(Model.VolumeInfo.Description ?? "Not Available")</p>
+
+
+
+    <h5 class="text-lg font-medium text-center">
+        Author(s): @string.Join(", ", Model.VolumeInfo.Authors ?? new List<string>())
+    </h5>
+
+
+</div>

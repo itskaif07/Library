@@ -7,24 +7,20 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Library.styles.css" asp-append-version="true" />
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
-<body class="bg-[#222222] text-white w-full ">
+<body class="bg-[#222222] text-white w-full">
 
-     <nav class="px-6 w-full flex items-center justify-between py-6">
-         <a asp-action="Index" class="block font-bold text-xl">Library</a>
+    <div id="loader" class="bg-[#222222] fixed inset-0 flex items-center justify-center z-50">
+        <div class="p-3 animate-spin drop-shadow-2xl bg-gradient-to-bl from-pink-400 via-purple-400 to-indigo-600 md:w-48 md:h-48 h-32 w-32 aspect-square rounded-full">
+            <div class="rounded-full h-full w-full bg-slate-100 dark:bg-zinc-900 backdrop-blur-md"></div>
+        </div>
+    </div>
 
-         <div class="space-x-10">
-             <a asp-action="#" class="text-xl hover:text-blue-400">Your Books</a>
-             <a asp-action="Create" class="text-center rounded-md  px-4  py-3 font-medium hover:text-white bg-blue-500 hover:bg-blue-600 transition-all duration-400 ease-in">Write Your Story Here</a>
-         </div>
-     </nav>
-
-
-        <main role="main" class="pb-3 w-full relative">
-            @RenderBody()
-        </main>
-
-
+    <main role="main" class="pb-3 w-full relative">
+       
+        @RenderBody()
+    </main>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
